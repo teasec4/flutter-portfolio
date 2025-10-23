@@ -71,46 +71,87 @@ class _ContentPageState extends State<ContentPage> {
         children: [
           // ---------- PROJECTS SLIDER ----------
           SizedBox(
-            height: isMobile
-                ? screenHeight * 0.82
-                : screenHeight  * 0.8,
-            child: PageView.builder(
-              controller: _controller,
-              itemCount: projects.length,
-              onPageChanged: (index) => setState(() => _currentPage = index),
-              itemBuilder: (context, index) {
-                final project = projects[index];
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Flex(
-                    direction: isMobile ? Axis.vertical : Axis.horizontal,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Flexible(
-                        flex: isMobile ? 5 : 6,
-                        child: AdaptiveImage(assetPath: project.imageUrl.toString()),
+            height: isMobile ? screenHeight * 0.82 : screenHeight * 0.8,
+            child: Stack(
+              children: [
+                // ---- PageView ----
+                PageView.builder(
+                  controller: _controller,
+                  itemCount: projects.length,
+                  onPageChanged: (index) => setState(() => _currentPage = index),
+                  itemBuilder: (context, index) {
+                    final project = projects[index];
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Flex(
+                        direction: isMobile ? Axis.vertical : Axis.horizontal,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Flexible(
+                            flex: isMobile ? 5 : 6,
+                            child: AdaptiveImage(assetPath: project.imageUrl.toString()),
+                          ),
+                          SizedBox(height: isMobile ? 5 : 0, width: isMobile ? 0 : 40),
+                          Flexible(
+                            flex: isMobile ? 6 : 5,
+                            child: ProjectDescription(
+                              title: project.title,
+                              subtitle: project.description,
+                              description: project.detailedDescription,
+                              technologies: project.technologies,
+                              link: project.githubUrl,
+                              gifPath: project.gifUrl.toString(),
+                            ),
+                          ),
+                        ],
                       ),
-                       SizedBox(height: isMobile ? 5 : 0, width: isMobile ? 0 :  40),
-                      Flexible(
-                        flex: isMobile ? 6 : 5,
-                        child: ProjectDescription(
-                          title: project.title,
-                          subtitle: project.description,
-                          description: project.detailedDescription,
-                          technologies: project.technologies,
-                          link: project.githubUrl,
-                          gifPath: project.gifUrl.toString(),
-                        ),
+                    );
+                  },
+                ),
+
+                // ---- Left arrow (Desktop only) ----
+                if (!isMobile && _currentPage > 0)
+                  Positioned(
+                    left: 0,
+                    top: 0,
+                    bottom: 0,
+                    child: Center(
+                      child: _arrowButton(
+                        icon: Icons.arrow_back_ios_new,
+                        onTap: () {
+                          _controller.previousPage(
+                            duration: const Duration(milliseconds: 400),
+                            curve: Curves.easeInOut,
+                          );
+                        },
                       ),
-                    ],
+                    ),
                   ),
-                );
-              },
+
+                // ---- Right arrow (Desktop only) ----
+                if (!isMobile && _currentPage < projects.length - 1)
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    bottom: 0,
+                    child: Center(
+                      child: _arrowButton(
+                        icon: Icons.arrow_forward_ios,
+                        onTap: () {
+                          _controller.nextPage(
+                            duration: const Duration(milliseconds: 400),
+                            curve: Curves.easeInOut,
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
 
-           SizedBox(height: isMobile ? 2 : 16),
+          const SizedBox(height: 16),
 
           // ---------- PAGE INDICATORS ----------
           Row(
@@ -136,9 +177,32 @@ class _ContentPageState extends State<ContentPage> {
     );
   }
 
+  // ---- Custom arrow button ----
+  Widget _arrowButton({required IconData icon, required VoidCallback onTap}) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(30),
+      onTap: onTap,
+      child: Container(
+        width: 42,
+        height: 42,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 10,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Icon(icon, color: Colors.black87, size: 22),
+      ),
+    );
+  }
+
   Widget _buildLoadingScreen() {
     final size = MediaQuery.of(context).size;
-
     return SizedBox(
       width: size.width,
       height: size.height,
