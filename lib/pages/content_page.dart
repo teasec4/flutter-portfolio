@@ -15,57 +15,14 @@ class ContentPage extends StatefulWidget {
 class _ContentPageState extends State<ContentPage> {
   final PageController _controller = PageController();
   int _currentPage = 0;
-  bool _isLoading = true;
-  double _progress = 0.0;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _preloadAssets();
-    });
-  }
-
-  Future<void> _preloadAssets() async {
-    final projects = PortfolioData.projects;
-    final total = projects.length;
-    int loaded = 0;
-
-    for (final project in projects) {
-      final image = AssetImage(project.imageUrl.toString());
-      try {
-        await precacheImage(image, context)
-            .timeout(const Duration(seconds: 5), onTimeout: () {});
-      } catch (e) {
-        debugPrint("⚠️ Error preloading ${project.imageUrl}: $e");
-      }
-
-      loaded++;
-      setState(() {
-        _progress = loaded / total;
-      });
-    }
-
-    await Future.delayed(const Duration(milliseconds: 300));
-    if (mounted) {
-      setState(() => _isLoading = false);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) {
-      return Center(child: _buildLoadingScreen());
-    }
-
     final isMobile = Responsive.isMobile(context);
     final projects = PortfolioData.projects;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    return AnimatedOpacity(
-      duration: const Duration(milliseconds: 600),
-      opacity: _isLoading ? 0 : 1,
-      child: Column(
+    return Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -185,7 +142,7 @@ class _ContentPageState extends State<ContentPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(
               projects.length,
-                  (index) => AnimatedContainer(
+              (index) => AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
                 margin: const EdgeInsets.all(6),
                 width: _currentPage == index ? 24 : 12,
@@ -200,8 +157,7 @@ class _ContentPageState extends State<ContentPage> {
             ),
           ),
         ],
-      ),
-    );
+      );
   }
 
   // ---- Custom arrow button ----
@@ -228,41 +184,4 @@ class _ContentPageState extends State<ContentPage> {
     );
   }
 
-  Widget _buildLoadingScreen() {
-    final size = MediaQuery.of(context).size;
-    return SizedBox(
-      width: size.width,
-      height: size.height,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Text(
-            'Loading projects...',
-            style: TextStyle(
-              fontSize: 18,
-              color: AppTheme.primaryColor,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          const SizedBox(height: 20),
-          SizedBox(
-            width: 180,
-            child: LinearProgressIndicator(
-              value: _progress,
-              backgroundColor: Colors.grey[200],
-              color: AppTheme.primaryColor,
-              borderRadius: BorderRadius.circular(12),
-              minHeight: 8,
-            ),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            '${(_progress * 100).round()}%',
-            style: const TextStyle(color: AppTheme.primaryColor),
-          ),
-        ],
-      ),
-    );
-  }
 }

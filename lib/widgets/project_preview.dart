@@ -61,19 +61,24 @@ class _ProjectPreviewState extends State<ProjectPreview>{
                   padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
                 child: Center(
                   child: _isLoading
-                      ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      CircularProgressIndicator(color: Colors.white),
-                      SizedBox(height: 20),
-                      Text(
-                        'Loading preview...',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
+                      ? Container(
+                    color: Colors.black,
+                    child: const Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircularProgressIndicator(color: Colors.white),
+                          SizedBox(height: 20),
+                          Text(
+                            'Loading preview...',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   )
                       : AnimatedOpacity(
                     duration: const Duration(milliseconds: 500),
