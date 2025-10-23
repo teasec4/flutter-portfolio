@@ -1,5 +1,5 @@
 ## Flutter Developer Portfolio
-[![Deploy Flutter Web to GitHub Pages](https://github.com/teasec4/flutter-portfolio/actions/workflows/deploy.yml/badge.svg)](https://github.com/teasec4/flutter-portfolio/actions/workflows/deploy.yml)
+[![Deploy Flutter Web to GitHub Pages](https://github.com/teasec4/flutter-portfolio/actions/workflows/flutter-web-deploy.yml/badge.svg)](https://github.com/teasec4/flutter-portfolio/actions/workflows/flutter-web-deploy.yml)
 
 A modern, minimalist Flutter web portfolio inspired by Apple, Linear, and Vercel design systems. Features large typography, subtle animations, and a focus on showcasing projects elegantly.
 
