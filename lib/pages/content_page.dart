@@ -81,30 +81,57 @@ class _ContentPageState extends State<ContentPage> {
                   onPageChanged: (index) => setState(() => _currentPage = index),
                   itemBuilder: (context, index) {
                     final project = projects[index];
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Flex(
-                        direction: isMobile ? Axis.vertical : Axis.horizontal,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Flexible(
-                            flex: isMobile ? 5 : 6,
-                            child: AdaptiveImage(assetPath: project.imageUrl.toString()),
+                    return AnimatedBuilder(
+                      animation: _controller,
+                      builder: (context, child) {
+                        // Если контроллер ещё не прикреплён — ничего не анимируем
+                        if (!_controller.hasClients || !_controller.position.haveDimensions) {
+                          return child!;
+                        }
+
+                        final currentPage =
+                        (_controller.page ?? _controller.initialPage.toDouble());
+
+                        // distance от текущей страницы до index
+                        final distance = (currentPage - index).abs(); // double
+
+                        // Чем дальше — тем слабее видимость и масштаб
+                        final scale = (1 - distance * 0.3).clamp(0.7, 1.0);
+                        final opacity = scale; // можно отдельно посчитать, если нужно
+
+                        return Opacity(
+                          opacity: opacity,
+                          child: Transform.scale(
+                            scale: scale,
+                            child: child,
                           ),
-                          SizedBox(height: isMobile ? 5 : 0, width: isMobile ? 0 : 40),
-                          Flexible(
-                            flex: isMobile ? 6 : 5,
-                            child: ProjectDescription(
-                              title: project.title,
-                              subtitle: project.description,
-                              description: project.detailedDescription,
-                              technologies: project.technologies,
-                              link: project.githubUrl,
-                              gifPath: project.gifUrl.toString(),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Flex(
+                          direction: isMobile ? Axis.vertical : Axis.horizontal,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Flexible(
+                              flex: isMobile ? 5 : 6,
+                              child: AdaptiveImage(assetPath: project.imageUrl.toString()),
                             ),
-                          ),
-                        ],
+                            SizedBox(height: isMobile ? 5 : 0, width: isMobile ? 0 : 40),
+                            Flexible(
+                              flex: isMobile ? 6 : 5,
+                              child: ProjectDescription(
+                                title: project.title,
+                                subtitle: project.description,
+                                description: project.detailedDescription,
+                                technologies: project.technologies,
+                                link: project.githubUrl,
+                                gifPath: project.gifUrl.toString(),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },

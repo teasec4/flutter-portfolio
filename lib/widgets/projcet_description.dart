@@ -149,6 +149,7 @@ class ProjectDescription extends StatelessWidget {
                       icon: Icons.video_collection,
                       label: "Preview",
                       textColor: Colors.black87,
+                      pulse: true,
                       onTap: () => {
                         showModalBottomSheet(
                           context: context,
