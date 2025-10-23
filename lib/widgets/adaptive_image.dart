@@ -51,10 +51,7 @@ class _AdaptiveImageState extends State<AdaptiveImage> {
           fit: StackFit.expand,
           alignment: Alignment.center,
           children: [
-            // — placeholder того же размера —
             Container(color: Colors.grey[200]),
-
-            // — плавное появление картинки —
             AnimatedOpacity(
               opacity: _isLoaded ? 1.0 : 0.0,
               duration: const Duration(milliseconds: 600),

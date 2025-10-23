@@ -15,14 +15,54 @@ class ContentPage extends StatefulWidget {
 class _ContentPageState extends State<ContentPage> {
   final PageController _controller = PageController();
   int _currentPage = 0;
+  bool _isLoading = true;
+  double _progress = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _preloadAssets());
+  }
+
+  Future<void> _preloadAssets() async {
+    final projects = PortfolioData.projects;
+    final total = projects.length;
+    int loaded = 0;
+
+    for (final project in projects) {
+      final image = AssetImage(project.imageUrl.toString());
+      try {
+        await precacheImage(image, context)
+            .timeout(const Duration(seconds: 5), onTimeout: () {});
+      } catch (e) {
+        debugPrint("⚠️ Error preloading ${project.imageUrl}: $e");
+      }
+
+      loaded++;
+      setState(() {
+        _progress = loaded / total;
+      });
+    }
+
+    // Небольшая пауза, чтобы показать завершение плавно
+    await Future.delayed(const Duration(milliseconds: 300));
+    if (mounted) setState(() => _isLoading = false);
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return _buildLoadingScreen();
+    }
+
     final isMobile = Responsive.isMobile(context);
     final projects = PortfolioData.projects;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    return Column(
+    return AnimatedOpacity(
+      duration: const Duration(milliseconds: 500),
+      opacity: _isLoading ? 0 : 1,
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -41,20 +81,16 @@ class _ContentPageState extends State<ContentPage> {
                     return AnimatedBuilder(
                       animation: _controller,
                       builder: (context, child) {
-                        // Если контроллер ещё не прикреплён — ничего не анимируем
-                        if (!_controller.hasClients || !_controller.position.haveDimensions) {
+                        if (!_controller.hasClients ||
+                            !_controller.position.haveDimensions) {
                           return child!;
                         }
 
-                        final currentPage =
-                        (_controller.page ?? _controller.initialPage.toDouble());
-
-                        // distance от текущей страницы до index
-                        final distance = (currentPage - index).abs(); // double
-
-                        // Чем дальше — тем слабее видимость и масштаб
+                        final currentPage = (_controller.page ??
+                            _controller.initialPage.toDouble());
+                        final distance = (currentPage - index).abs();
                         final scale = (1 - distance * 0.3).clamp(0.7, 1.0);
-                        final opacity = scale; // можно отдельно посчитать, если нужно
+                        final opacity = scale;
 
                         return Opacity(
                           opacity: opacity,
@@ -73,9 +109,13 @@ class _ContentPageState extends State<ContentPage> {
                           children: [
                             Flexible(
                               flex: isMobile ? 5 : 6,
-                              child: AdaptiveImage(assetPath: project.imageUrl.toString()),
+                              child: AdaptiveImage(
+                                assetPath: project.imageUrl.toString(),
+                              ),
                             ),
-                            SizedBox(height: isMobile ? 5 : 0, width: isMobile ? 0 : 40),
+                            SizedBox(
+                                height: isMobile ? 5 : 0,
+                                width: isMobile ? 0 : 40),
                             Flexible(
                               flex: isMobile ? 6 : 5,
                               child: ProjectDescription(
@@ -142,7 +182,7 @@ class _ContentPageState extends State<ContentPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(
               projects.length,
-              (index) => AnimatedContainer(
+                  (index) => AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
                 margin: const EdgeInsets.all(6),
                 width: _currentPage == index ? 24 : 12,
@@ -157,10 +197,50 @@ class _ContentPageState extends State<ContentPage> {
             ),
           ),
         ],
-      );
+      ),
+    );
   }
 
-  // ---- Custom arrow button ----
+  // ---- Central loading overlay ----
+  Widget _buildLoadingScreen() {
+    final size = MediaQuery.of(context).size;
+    return SizedBox(
+      width: size.width,
+      height: size.height,
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              'Loading projects...',
+              style: TextStyle(
+                fontSize: 18,
+                color: AppTheme.primaryColor,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              width: 180,
+              child: LinearProgressIndicator(
+                value: _progress,
+                backgroundColor: Colors.grey[200],
+                color: AppTheme.primaryColor,
+                borderRadius: BorderRadius.circular(12),
+                minHeight: 8,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              '${(_progress * 100).round()}%',
+              style: const TextStyle(color: AppTheme.primaryColor),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _arrowButton({required IconData icon, required VoidCallback onTap}) {
     return InkWell(
       borderRadius: BorderRadius.circular(30),
@@ -183,5 +263,4 @@ class _ContentPageState extends State<ContentPage> {
       ),
     );
   }
-
 }
