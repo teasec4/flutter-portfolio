@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio_flutter/core/theme/app_theme.dart';
 
 class ActionButton extends StatelessWidget {
   final Color color;
@@ -30,7 +29,7 @@ class ActionButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.08),
+                color: Colors.black.withValues(alpha: 0.08),
                 blurRadius: 8,
                 offset: const Offset(0, 3),
               ),

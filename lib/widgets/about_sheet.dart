@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio_flutter/core/responsive.dart';
+import 'package:portfolio_flutter/core/theme/app_theme.dart';
 
 class AboutSheet extends StatelessWidget {
   const AboutSheet({super.key});
@@ -7,20 +8,22 @@ class AboutSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isMobile = Responsive.isMobile(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return SafeArea(
       top: false,
       child: Container(
         height: MediaQuery.of(context).size.height * (isMobile ? 0.9 : 0.8),
         width: double.infinity,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        decoration: BoxDecoration(
+          color: isDark ? AppTheme.darkSurfaceColor : Colors.white,
+          borderRadius:
+              const BorderRadius.vertical(top: Radius.circular(24)),
           boxShadow: [
             BoxShadow(
-              color: Colors.black26,
+              color: Colors.black.withValues(alpha: 0.26),
               blurRadius: 16,
-              offset: Offset(0, -2),
+              offset: const Offset(0, -2),
             ),
           ],
         ),
@@ -39,12 +42,14 @@ class AboutSheet extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // ---- Name ----
-                        const Text(
+                        Text(
                           "Max Kovalev",
                           style: TextStyle(
                             fontSize: 26,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black87,
+                            color: isDark
+                                ? AppTheme.darkTextPrimaryColor
+                                : Colors.black87,
                           ),
                         ),
                         const SizedBox(height: 6),
@@ -53,7 +58,9 @@ class AboutSheet extends StatelessWidget {
                           "Flutter & iOS Developer",
                           style: TextStyle(
                             fontSize: 16,
-                            color: Colors.grey[700],
+                            color: isDark
+                                ? AppTheme.darkTextSecondaryColor
+                                : Colors.grey[700],
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -66,19 +73,23 @@ class AboutSheet extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: Colors.grey[900],
+                            color: isDark
+                                ? AppTheme.darkTextPrimaryColor
+                                : Colors.grey[900],
                           ),
                         ),
                         const SizedBox(height: 12),
 
-                        const Text(
-                          "I’m a mobile developer with experience in Flutter and SwiftUI. "
+                        Text(
+                          "I'm a mobile developer with experience in Flutter and SwiftUI. "
                               "I build modern, elegant apps focused on performance and UX. "
                               "Previously worked in international trade, now fully focused on app development.",
                           style: TextStyle(
                             fontSize: 15,
                             height: 1.5,
-                            color: Colors.black87,
+                            color: isDark
+                                ? AppTheme.darkTextSecondaryColor
+                                : Colors.black87,
                           ),
                         ),
 
@@ -90,7 +101,9 @@ class AboutSheet extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: Colors.grey[900],
+                            color: isDark
+                                ? AppTheme.darkTextPrimaryColor
+                                : Colors.grey[900],
                           ),
                         ),
                         const SizedBox(height: 12),
@@ -99,12 +112,12 @@ class AboutSheet extends StatelessWidget {
                           spacing: 8,
                           runSpacing: 8,
                           children: [
-                            _skillChip("Flutter"),
-                            _skillChip("Dart"),
-                            _skillChip("SwiftUI"),
-                            _skillChip("Python"),
-                            _skillChip("Supabase"),
-                            _skillChip("Firebase"),
+                            _skillChip("Flutter", isDark),
+                            _skillChip("Dart", isDark),
+                            _skillChip("SwiftUI", isDark),
+                            _skillChip("Python", isDark),
+                            _skillChip("Supabase", isDark),
+                            _skillChip("Firebase", isDark),
                           ],
                         ),
                       ],
@@ -127,12 +140,16 @@ class AboutSheet extends StatelessWidget {
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.black.withOpacity(0.05),
+                      color: isDark
+                          ? Colors.white.withValues(alpha: 0.08)
+                          : Colors.black.withValues(alpha: 0.05),
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.close_rounded,
                       size: 28,
-                      color: Colors.black87,
+                      color: isDark
+                          ? AppTheme.darkTextPrimaryColor
+                          : Colors.black87,
                     ),
                   ),
                 ),
@@ -144,10 +161,11 @@ class AboutSheet extends StatelessWidget {
     );
   }
 
-  Widget _skillChip(String label) {
+  Widget _skillChip(String label, bool isDark) {
     return Chip(
       label: Text(label),
-      backgroundColor: const Color(0xFF4F46E5).withOpacity(0.08),
+      backgroundColor: const Color(0xFF4F46E5)
+          .withValues(alpha: isDark ? 0.15 : 0.08),
       labelStyle: const TextStyle(
         color: Color(0xFF4F46E5),
         fontWeight: FontWeight.w600,

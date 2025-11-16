@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio_flutter/core/responsive.dart';
+import 'package:portfolio_flutter/core/theme/app_theme.dart';
 import 'package:portfolio_flutter/widgets/action_button.dart';
 import 'package:portfolio_flutter/widgets/project_preview.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -25,6 +26,7 @@ class ProjectDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isMobile = Responsive.isMobile(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Center(
       child: Container(
@@ -33,17 +35,19 @@ class ProjectDescription extends StatelessWidget {
           horizontal: isMobile ? 10 : 28,
         ),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: isDark ? AppTheme.darkSurfaceColor : Colors.white,
           borderRadius: BorderRadius.circular(18),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.08),
+              color: Colors.black.withValues(alpha: 0.08),
               blurRadius: 18,
               offset: const Offset(0, 6),
             ),
           ],
           border: Border.all(
-            color: Colors.grey.withOpacity(0.1),
+            color: isDark
+                ? Colors.grey[700]!.withValues(alpha: 0.3)
+                : Colors.grey.withValues(alpha: 0.1),
           ),
         ),
         child: ConstrainedBox(
@@ -61,23 +65,27 @@ class ProjectDescription extends StatelessWidget {
                 style: TextStyle(
                   fontSize: isMobile ? 26 : 32,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black87,
+                  color: isDark
+                      ? AppTheme.darkTextPrimaryColor
+                      : Colors.black87,
                   height: 1.2,
                 ),
               ),
-            SizedBox(height: isMobile ? 10 : 20),
+              SizedBox(height: isMobile ? 10 : 20),
 
               // ---- Subtitle ----
               Text(
                 subtitle,
                 style: TextStyle(
                   fontSize: isMobile ? 16 : 18,
-                  color: Colors.grey[600],
+                  color: isDark
+                      ? AppTheme.darkTextSecondaryColor
+                      : Colors.grey[600],
                   fontWeight: FontWeight.w500,
                 ),
               ),
 
-            SizedBox(height: isMobile ? 10 : 20),
+              SizedBox(height: isMobile ? 10 : 20),
 
               // ---- Description ----
               if (!isMobile)
@@ -85,7 +93,9 @@ class ProjectDescription extends StatelessWidget {
                   description,
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.grey[800],
+                    color: isDark
+                        ? AppTheme.darkTextSecondaryColor
+                        : Colors.grey[800],
                     height: 1.6,
                   ),
                 )
@@ -104,12 +114,12 @@ class ProjectDescription extends StatelessWidget {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF4F46E5).withOpacity(0.08),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: const Color(0xFF4F46E5).withOpacity(0.2),
+                        color: const Color(0xFF4F46E5).withValues(alpha: 0.08),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: const Color(0xFF4F46E5).withValues(alpha: 0.2),
+                        ),
                       ),
-                    ),
                     child: Text(
                       tech,
                       style: const TextStyle(
