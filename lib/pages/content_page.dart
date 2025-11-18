@@ -4,6 +4,7 @@ import 'package:portfolio_flutter/core/responsive.dart';
 import 'package:portfolio_flutter/core/theme/app_theme.dart';
 import 'package:portfolio_flutter/widgets/adaptive_image.dart';
 import 'package:portfolio_flutter/widgets/projcet_description.dart';
+import 'package:portfolio_flutter/widgets/footer.dart';
 
 class ContentPage extends StatefulWidget {
   const ContentPage({super.key});
@@ -22,12 +23,13 @@ class _ContentPageState extends State<ContentPage> {
     final projects = PortfolioData.projects;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        // ---------- PROJECTS SLIDER ----------
-        SizedBox(
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // ---------- PROJECTS SLIDER ----------
+          SizedBox(
           height: isMobile ? screenHeight * 0.82 : screenHeight * 0.8,
           child: Stack(
             children: [
@@ -156,9 +158,13 @@ class _ContentPageState extends State<ContentPage> {
             ),
           ),
         ),
-      ],
-    );
-  }
+        
+        // ---------- FOOTER ----------
+        const Footer(),
+        ],
+        ),
+        );
+        }
 
   Widget _arrowButton({required IconData icon, required VoidCallback onTap}) {
     final isDark = Theme.of(context).brightness == Brightness.dark;

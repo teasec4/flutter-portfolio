@@ -1,61 +1,44 @@
-## Flutter Developer Portfolio
-[![Deploy Flutter Web to GitHub Pages](https://github.com/teasec4/flutter-portfolio/actions/workflows/flutter-web-deploy.yml/badge.svg)](https://github.com/teasec4/flutter-portfolio/actions/workflows/flutter-web-deploy.yml)
+## Portfolio
 
-A modern, minimalist Flutter web portfolio inspired by Apple, Linear, and Vercel design systems. Features large typography, subtle animations, and a focus on showcasing projects elegantly.
+[![Flutter](https://img.shields.io/badge/Flutter-3.24.0+-02569B?logo=flutter)](https://flutter.dev)
+[![Dart](https://img.shields.io/badge/Dart-3.9.2+-0175C2?logo=dart)](https://dart.dev)
+[![Deploy](https://github.com/teasec4/flutter-portfolio/actions/workflows/flutter-web-deploy.yml/badge.svg)](https://github.com/teasec4/flutter-portfolio/actions/workflows/flutter-web-deploy.yml)
+
+A minimal Flutter portfolio to showcase my projects. Clean design, responsive layout for desktop and mobile.
 
 ## Features
 
-- **Modern Design**: Clean, minimalist interface with large typography and generous white space
-- **Project Showcase**: Each project displayed as a focused, detailed presentation
-- **Smooth Navigation**: Navigate between projects with arrow buttons and animated dot indicators
-- **About Overlay**: Minimal "About" section that appears as an elegant overlay
-- **Responsive Layout**: Optimized for desktop, tablet, and mobile viewing
-- **Subtle Animations**: Fade-in effects and smooth transitions throughout
-- **External Links**: Direct links to GitHub repositories and live demos
+- **Project Gallery**: Browse projects with preview animations
+- **Responsive Design**: Optimized for all screen sizes
+- **Dark/Light Mode**: Theme toggle support
+- **Project Details**: View technologies, descriptions, and links
+- **Smooth Navigation**: Arrow controls and dot indicators
 
-## Design Philosophy
+## Tech Stack
 
-Inspired by modern design systems:
-- **Typography**: Inter font with careful weight and spacing choices
-- **Color**: White background (#FFFFFF), dark text (#111111), accent indigo (#4F46E5)
-- **Layout**: Centered content with responsive grid system
-- **Motion**: Subtle fade-in animations and smooth transitions
-- **Minimalism**: No borders, no shadows, no unnecessary elements
-
-## Projects Showcased
-
-1. **E-Commerce App**
-   - Full-featured shopping experience with seamless checkout
-   - Technologies: Flutter, Dart, Riverpod, Firebase, Stripe API
-   - Contribution: Designed UI/UX, implemented state management with Riverpod
-
-2. **Task Management Tool**
-   - Collaborative productivity platform with real-time synchronization
-   - Technologies: Flutter, Dart, WebSockets, SQLite, Provider
-   - Contribution: Built core architecture, implemented real-time collaboration
-
-3. **Weather Dashboard**
-   - Beautiful weather app with interactive maps and analytics
-   - Technologies: Flutter, Dart, REST API, Google Maps, Geolocation
-   - Contribution: Created visual design, implemented location services
-
-4. **Social Media Platform**
-   - Modern social platform with messaging and community features
-   - Technologies: Flutter, Dart, Firebase, WebSockets, Cloud Firestore
-   - Contribution: Developed entire frontend, implemented real-time messaging
+- Flutter Web
+- Dart 3.9.2+
+- Google Fonts
+- URL Launcher
 
 ## Getting Started
 
-1. Clone the repository
-2. Run `flutter pub get` to install dependencies
-3. Run `flutter run -d web` to start the web app
-4. Use arrow buttons to navigate between projects
-5. Tap "About" in the header to view the bio overlay
+```bash
+# Clone & setup
+git clone https://github.com/teasec4/flutter-portfolio.git
+cd flutter-portfolio
+flutter pub get
 
-## Technologies Used
+# Run on web
+flutter run -d web
+```
 
-- Flutter Web
-- Dart
-- Google Fonts (Inter)
-- URL Launcher for external links
-- Material Design 3
+## Projects
+
+1. **Crypto Desktop** - Cross-platform cryptocurrency tracker with portfolio management
+2. **Crypto Tracker (iOS)** - Swift-based crypto app with real-time data
+3. **MacTimerV1** - Native macOS timer application
+
+---
+
+Built with Flutter | [GitHub](https://github.com/teasec4)

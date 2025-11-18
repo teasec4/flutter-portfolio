@@ -14,14 +14,31 @@ class CustomScaffold extends StatelessWidget {
     return Scaffold(
       backgroundColor: isDark
           ? AppTheme.darkBackgroundColor
-          : const Color(0xFFF9FAFB),
+          : Colors.white,
       appBar: const CustomAppBar(),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-            child: body,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: isDark
+                ? [
+                    AppTheme.darkBackgroundColor,
+                    AppTheme.darkBackgroundColor.withValues(alpha: 0.8),
+                  ]
+                : [
+                    Colors.white,
+                    const Color(0xFFFAFAFA).withValues(alpha: 0.5),
+                  ],
+          ),
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+              child: body,
+            ),
           ),
         ),
       ),

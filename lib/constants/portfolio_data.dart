@@ -24,7 +24,7 @@ class PortfolioData {
       githubUrl: 'https://github.com/teasec4/flutter_crypto_desctop',
       liveUrl: null,
       assetPath: 'assets/images/project1.png',
-      gifUrl: 'assets/gifs/project1.gif',
+      gifUrl: 'assets/gifs/project1.webp',
     ),
     Project(
       id: 'crypto-async-await',
@@ -46,7 +46,7 @@ class PortfolioData {
       githubUrl: 'https://github.com/teasec4/swift-crypto-app',
       liveUrl: null,
       assetPath: 'assets/images/project2.png',
-      gifUrl: 'assets/gifs/project2.gif',
+      gifUrl: 'assets/gifs/project2.webp',
     ),
     Project(
       id: 'mactimer-v1',
@@ -57,10 +57,10 @@ class PortfolioData {
       personalNotes: 'Focused on clean architecture, reactive programming with Combine, and efficient state management.',
       technologies: ['SwiftUI', 'Combine', 'MVVM', 'Dependency Injection', 'Swift 5.7+'],
       imageUrl: 'assets/images/project3.png',
-      githubUrl: null,
+      githubUrl: 'https://github.com/teasec4/MacTimerManager',
       liveUrl: null,
       assetPath: 'assets/images/project3.png',
-      gifUrl: 'assets/gifs/project3.gif',
+      gifUrl: 'assets/gifs/project3.webp',
     ),
   ];
 
