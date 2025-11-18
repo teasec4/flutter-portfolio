@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:portfolio_flutter/constants/portfolio_data.dart';
 import 'package:portfolio_flutter/core/responsive.dart';
 import 'package:portfolio_flutter/core/theme/app_theme.dart';
 
@@ -81,45 +84,96 @@ class AboutSheet extends StatelessWidget {
                         const SizedBox(height: 12),
 
                         Text(
-                          "I'm a mobile developer with experience in Flutter and SwiftUI. "
-                              "I build modern, elegant apps focused on performance and UX. "
-                              "Previously worked in international trade, now fully focused on app development.",
-                          style: TextStyle(
-                            fontSize: 15,
-                            height: 1.5,
-                            color: isDark
-                                ? AppTheme.darkTextSecondaryColor
-                                : Colors.black87,
-                          ),
-                        ),
+                           PortfolioData.aboutBio,
+                           style: TextStyle(
+                             fontSize: 15,
+                             height: 1.6,
+                             color: isDark
+                                 ? AppTheme.darkTextSecondaryColor
+                                 : Colors.black87,
+                           ),
+                         ),
 
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 32),
 
                         // ---- Skills ----
                         Text(
-                          "🧠 Skills",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: isDark
-                                ? AppTheme.darkTextPrimaryColor
-                                : Colors.grey[900],
-                          ),
-                        ),
-                        const SizedBox(height: 12),
+                           "🧠 Skills",
+                           style: TextStyle(
+                             fontSize: 18,
+                             fontWeight: FontWeight.bold,
+                             color: isDark
+                                 ? AppTheme.darkTextPrimaryColor
+                                 : Colors.grey[900],
+                           ),
+                         ),
+                         const SizedBox(height: 12),
 
-                        Wrap(
-                          spacing: 8,
-                          runSpacing: 8,
-                          children: [
-                            _skillChip("Flutter", isDark),
-                            _skillChip("Dart", isDark),
-                            _skillChip("SwiftUI", isDark),
-                            _skillChip("Python", isDark),
-                            _skillChip("Supabase", isDark),
-                            _skillChip("Firebase", isDark),
-                          ],
-                        ),
+                         Wrap(
+                           spacing: 8,
+                           runSpacing: 8,
+                           children: List.generate(
+                             PortfolioData.skills.length,
+                             (index) => _skillChip(PortfolioData.skills[index], isDark),
+                           ),
+                         ),
+
+                        const SizedBox(height: 32),
+
+                        // ---- Social Links ----
+                        Text(
+                           "🔗 Connect with Me",
+                           style: TextStyle(
+                             fontSize: 18,
+                             fontWeight: FontWeight.bold,
+                             color: isDark
+                                 ? AppTheme.darkTextPrimaryColor
+                                 : Colors.grey[900],
+                           ),
+                         ),
+                         const SizedBox(height: 16),
+
+                         SingleChildScrollView(
+                           scrollDirection: Axis.horizontal,
+                           child: Row(
+                              children: [
+                                _socialButton(
+                                  icon: FontAwesomeIcons.github,
+                                  label: "GitHub",
+                                  url: PortfolioData.socialLinks['github']!,
+                                  isDark: isDark,
+                                ),
+                                const SizedBox(width: 12),
+                                _socialButton(
+                                  icon: FontAwesomeIcons.envelope,
+                                  label: "Email",
+                                  url: PortfolioData.socialLinks['email']!,
+                                  isDark: isDark,
+                                ),
+                                const SizedBox(width: 12),
+                                _socialButton(
+                                  icon: FontAwesomeIcons.x,
+                                  label: "X",
+                                  url: PortfolioData.socialLinks['x']!,
+                                  isDark: isDark,
+                                ),
+                                const SizedBox(width: 12),
+                                _socialButton(
+                                  icon: FontAwesomeIcons.telegram,
+                                  label: "Telegram",
+                                  url: PortfolioData.socialLinks['telegram']!,
+                                  isDark: isDark,
+                                ),
+                                const SizedBox(width: 12),
+                                _socialButton(
+                                  icon: FontAwesomeIcons.weixin,
+                                  label: "WeChat",
+                                  url: PortfolioData.socialLinks['wechat']!,
+                                  isDark: isDark,
+                                ),
+                              ],
+                            ),
+                          ),
                       ],
                     ),
                   ),
@@ -169,6 +223,43 @@ class AboutSheet extends StatelessWidget {
       labelStyle: const TextStyle(
         color: Color(0xFF4F46E5),
         fontWeight: FontWeight.w600,
+      ),
+    );
+  }
+
+  Widget _socialButton({
+    required IconData icon,
+    required String label,
+    required String url,
+    required bool isDark,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () async {
+          if (await canLaunchUrl(Uri.parse(url))) {
+            await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+          }
+        },
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: const Color(0xFF4F46E5).withValues(alpha: 0.3),
+              width: 1.5,
+            ),
+          ),
+          child: Tooltip(
+            message: label,
+            child: Icon(
+              icon,
+              size: 20,
+              color: const Color(0xFF4F46E5),
+            ),
+          ),
+        ),
       ),
     );
   }

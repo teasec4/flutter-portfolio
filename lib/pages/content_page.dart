@@ -97,7 +97,7 @@ class _ContentPageState extends State<ContentPage> {
               // ---- Left arrow (Desktop only) ----
               if (!isMobile && _currentPage > 0)
                 Positioned(
-                  left: 0,
+                  left: 16,
                   top: 0,
                   bottom: 0,
                   child: Center(
@@ -116,7 +116,7 @@ class _ContentPageState extends State<ContentPage> {
               // ---- Right arrow (Desktop only) ----
               if (!isMobile && _currentPage < projects.length - 1)
                 Positioned(
-                  right: 0,
+                  right: 16,
                   top: 0,
                   bottom: 0,
                   child: Center(
