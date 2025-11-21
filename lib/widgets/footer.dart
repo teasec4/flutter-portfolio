@@ -8,16 +8,20 @@ class Footer extends StatelessWidget {
 
   static const Map<String, Map<String, String>> socialLinks = {
     'github': {
-      'url': 'https://github.com/teasec4',
+      'url': 'https://github.com/teasec4/',
       'label': 'GitHub',
     },
     'x': {
-      'url': 'https://x.com/yourusername',
+      'url': 'https://x.com/CoinsAndCode',
       'label': 'X',
     },
     'telegram': {
-      'url': 'https://t.me/yourusername',
+      'url': 'https://t.me/teasec4',
       'label': 'Telegram',
+    },
+    'linkedin': {
+      'url': 'https://www.linkedin.com/in/maksim-kovalev-a12b35378/',
+      'label': 'LinkedIn',
     },
   };
 

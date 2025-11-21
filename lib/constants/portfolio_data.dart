@@ -77,10 +77,11 @@ class PortfolioData {
 
   // Social links
   static const Map<String, String> socialLinks = {
-    'github': 'https://github.com/teasec4',
-    'x': 'https://x.com/yourusername',
-    'telegram': 'https://t.me/yourusername',
-    'wechat': 'https://wechat.com/yourusername',
-    'email': 'mailto:your.email@example.com',
+    'github': 'https://github.com/teasec4/',
+    'x': 'https://x.com/CoinsAndCode',
+    'telegram': 'https://t.me/teasec4',
+    'linkedin': 'https://www.linkedin.com/in/maksim-kovalev-a12b35378/',
+    'email': 'mailto:kovalev_mk@tuta.io',
+    'wechat': 'https://wechat.com/teasec4',
   };
 }
